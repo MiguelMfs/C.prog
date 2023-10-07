@@ -32,13 +32,13 @@ Lutador *cadastrarLutador(){
 
 Torneio *cadastrarTorneio(){
     Torneio *novoTorneio = malloc(sizeof(Torneio));
-    printf ("Digite o nome do Torneio:");
+    printf ("Digite o nome do Torneio: ");
     scanf (" %[^\n]s", novoTorneio->nome);
-    printf ("Digite o local do Torneio:");
+    printf ("Digite o local do Torneio: ");
     scanf (" %[^\n]s", novoTorneio->local);
-    printf ("Digite a categoria do Torneio:");
+    printf ("Digite a categoria de lutas do Torneio: ");
     scanf (" %[^\n]s", novoTorneio->categoria);
-      
+ 
     return novoTorneio;
 }
 
@@ -112,6 +112,8 @@ void editarTorneio(Torneio *torneios[], int numTorneios) {
                 printf("\n1 - Para editar o nome do Torneio: ");
                 printf("\n2 - Para editar o local do Torneio: ");
                 printf("\n3 - Para editar a categoria do Torneio: ");
+                printf("\n4 - Para adicionar um Lutador ao Torneio: ");
+                printf("\n5 - Para remover um lutador do Torneio: ");
                 printf("\n\nSelecione uma opcao: ");
                 scanf("%d", &opcao);
 
@@ -126,7 +128,7 @@ void editarTorneio(Torneio *torneios[], int numTorneios) {
                     scanf(" %[^\n]s", torneios[i]->local);
                 break;
                 case 3:
-                    printf("\nDigite a nova categoria do Torneio: ");
+                    printf("\nDigite a nova categoria de luta do Torneio: ");
                     scanf(" %[^\n]s", torneios[i]->categoria);
                 break;
                 
