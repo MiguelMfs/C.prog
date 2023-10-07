@@ -112,8 +112,6 @@ void editarTorneio(Torneio *torneios[], int numTorneios) {
                 printf("\n1 - Para editar o nome do Torneio: ");
                 printf("\n2 - Para editar o local do Torneio: ");
                 printf("\n3 - Para editar a categoria do Torneio: ");
-                printf("\n4 - Para adicionar um Lutador ao Torneio: ");
-                printf("\n5 - Para remover um lutador do Torneio: ");
                 printf("\n\nSelecione uma opcao: ");
                 scanf("%d", &opcao);
 
@@ -153,7 +151,8 @@ int main(){
     Lutador *lutadores[100];
     Torneio *torneios[100];
     int opcao; 
-    int numTorneios, numLutadores = 0;
+    int numTorneios = 0;
+    int numLutadores = 0;
     char sair;
     
 
@@ -163,7 +162,7 @@ int main(){
         printf("\n2 - Editar uma caracteristica do Lutador:");
         printf("\n3 - Listar todos os Lutadores:");
         printf("\n4 - Cadastrar Torneio:");
-        printf("\n5 - Editar nome, adicionar ou remover Lutador do Torneio:");
+        printf("\n5 - Editar caracteristicas, adicionar ou remover Lutadores do Torneio:");
         printf("\n6 - Sair do programa");
         printf("\n\nSelecione uma opcao: ");
         scanf("%d", &opcao);
