@@ -190,7 +190,58 @@ int main(){
         listarTorneios(torneios, numTorneios);
             break;
         case 6:
+            if(numTorneios == 0) {
+                printf("\nNenhum Torneio foi cadastrado para realizar edicoes.");
+            } else {
+            
+                char nomeTorneio[50];
+                int i, opcao, opcaoJogador;
         
+                listarTorneios(torneios, numTorneios);
+        
+                printf("\nEscreva o nome do Torneio que deseja editar: ");
+                scanf(" %[^\n]s", nomeTorneio);
+
+                for(i=0; i<numTorneios; i++) {
+                    if (strcasecmp(nomeTorneio, torneios[i]->nome) == 0) {
+                        printf("\n1 - Para editar o nome do Torneio: ");
+                        printf("\n2 - Para adicionar um Lutador ao Torneio: ");
+                        printf("\n3 - Para remover um lutador do Torneio: ");
+                        printf("\n\nSelecione uma opcao: ");
+                        scanf("%d", &opcao);
+
+                switch (opcao){
+                case 1:
+                    printf("\nDigite o novo nome do Torneio: ");
+                    scanf(" %[^\n]s", torneios[i]->nome);
+                break;
+                case 2:
+                    if (torneios[i]->numLutadores >= 100) {
+                        printf("\nO Torneio ja possui o numero maximo de lutadores.");
+                } else {
+                    int j;
+                    listarLutadores(lutadores, numLutadores);
+                    printf("\nEscolha o lutador a ser adicionado: ");
+
+                    if (strcasecmp(nomeTorneio, torneios[i]->nome) == 0) {
+                        Lutador *lutadorSelecionado = lutadores[opcao - 1];
+                        torneios[i]->lutadores[torneios[i]->numLutadores] = lutadorSelecionado;
+                        torneios[i]->numLutadores++;
+                         printf("%s adicionado ao Torneio %s.\n", lutadorSelecionado->nome, torneios[i]->nome);
+                    } else {
+                    printf("\nLutador invalido. Escolha um lutador valido.");
+                    }
+                }
+                break;
+                case 3:
+                
+                break;
+                }
+            
+            }  
+        }      
+    }    
+
             break;
         case 7:
             break;
