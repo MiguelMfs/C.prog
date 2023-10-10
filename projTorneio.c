@@ -162,8 +162,10 @@ int main(){
         printf("\n2 - Editar uma caracteristica do Lutador:");
         printf("\n3 - Listar todos os Lutadores:");
         printf("\n4 - Cadastrar Torneio:");
-        printf("\n5 - Editar caracteristicas, adicionar ou remover Lutadores do Torneio:");
-        printf("\n6 - Sair do programa");
+        printf("\n5 - Listar Torneios:");
+        printf("\n6 - Editar nome, adicionar ou remover Lutadores do Torneio:");
+        printf("\n7 - Deletar Torneio:");
+        printf("\n8 - Sair do programa");
         printf("\n\nSelecione uma opcao: ");
         scanf("%d", &opcao);
         printf("\n\n");
@@ -186,9 +188,13 @@ int main(){
             break;
         case 5: 
         listarTorneios(torneios, numTorneios);
-        editarTorneio(torneios, numTorneios);
             break;
-        case 6: 
+        case 6:
+        
+            break;
+        case 7:
+            break;
+        case 8: 
             printf("Deseja sair? (S/N): ");
             scanf(" %c", &sair);
             break;
@@ -198,7 +204,7 @@ int main(){
             break;
         }
 
-        if (opcao != 6) {
+        if (opcao != 8) {
             sair = 'n';
         }
 
