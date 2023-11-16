@@ -14,7 +14,7 @@ typedef struct _torneio {
     char local[40];
     char categoria[40];
     int numLutadores;
-    Lutador** lutadores; // Array of pointers to Lutadores
+    Lutador** lutadores; 
     struct _torneio* prox;
 } Torneio;
 
@@ -99,12 +99,12 @@ void listarLutadores(Lista* lista) {
     int indice = 0;
     while (aux != NULL) {
         Lutador* lutador = (Lutador*)aux->elemento;
-        printf("Indice: %d - Nome: %s - Altura: %.2f - Peso: %.2f - Idade: %d\n",
+        printf("%d - Nome: %s - Altura: %.2f - Peso: %.2f - Idade: %d\n",
                indice, lutador->nome, lutador->altura, lutador->peso, lutador->idade);
         aux = aux->prox;
         indice++;
     }
-    printf("\n\n");
+    printf("\n");
 }
 
 void listarTorneios(Lista* lista) {
@@ -112,11 +112,11 @@ void listarTorneios(Lista* lista) {
     int indice = 0;
     while (aux != NULL) {
         Torneio* torneio = (Torneio*)aux->elemento;
-        printf("Nome do Torneio: %s - Num Lutadores: %d\n", torneio->nome, torneio->numLutadores);
+        printf("%d - Nome do Torneio: %s - Num Lutadores: %d\n",indice, torneio->nome, torneio->numLutadores);
         aux = aux->prox;
         indice++;
     }
-    printf("\n\n");
+    printf("\n");
 }
 
 void editarCaracteristicaLutador(Lista *listaLutadores) {
@@ -168,6 +168,83 @@ void editarCaracteristicaLutador(Lista *listaLutadores) {
     }
 }
 
+void editarTorneio(Lista* listaLutadores, Lista* listaTorneios) {
+    if (listaTorneios->tamanho == 0) {
+        printf("Nenhum torneio cadastrado! Cadastre um torneio antes de editar.\n");
+        return;
+    }
+
+    printf("Digite o indice do torneio que deseja editar:\n");
+    listarTorneios(listaTorneios);
+
+    int indiceTorneio;
+    scanf("%d", &indiceTorneio);
+
+    if (indiceTorneio >= 0 && indiceTorneio < listaTorneios->tamanho) {
+        Torneio* torneio = (Torneio*)buscar(listaTorneios, indiceTorneio);
+
+        printf("Escolha uma opcao:\n");
+        printf("1 - Editar Nome do Torneio\n");
+        printf("2 - Adicionar Lutador\n");
+        printf("3 - Remover Lutador\n");
+
+        int opcaoEdicao;
+        scanf("%d", &opcaoEdicao);
+
+        switch (opcaoEdicao) {
+            case 1:
+                printf("Digite o novo nome para o torneio: ");
+                scanf("%s", torneio->nome);
+                break;
+            case 2:
+                if (listaLutadores->tamanho == 0) {
+                    printf("Nenhum lutador cadastrado! Cadastre um lutador antes de adicionar ao torneio.\n");
+                    return;
+                }
+
+                int indiceLutador;
+                printf("Digite o indice do lutador para adicionar ao torneio:\n");
+                listarLutadores(listaLutadores);
+                scanf("%d", &indiceLutador);
+
+                if (indiceLutador >= 0 && indiceLutador < listaLutadores->tamanho) {
+                    torneio->lutadores[torneio->numLutadores++] = (Lutador*)buscar(listaLutadores, indiceLutador);
+                } else {
+                    printf("Indice de lutador invalido! Tente novamente.\n");
+                }
+                break;
+            case 3:
+                if (torneio->numLutadores == 0) {
+                    printf("Nenhum lutador cadastrado para remover do torneio.\n");
+                    return;
+                }
+
+                printf("Digite o indice do lutador para remover do torneio:\n");
+                for (int i = 0; i < torneio->numLutadores; i++) {
+                    printf("%d - %s\n", i, torneio->lutadores[i]->nome);
+                }
+
+                int indiceRemocao;
+                scanf("%d", &indiceRemocao);
+
+                if (indiceRemocao >= 0 && indiceRemocao < torneio->numLutadores) {
+                    for (int i = indiceRemocao; i < torneio->numLutadores - 1; i++) {
+                        torneio->lutadores[i] = torneio->lutadores[i + 1];
+                    }
+                    torneio->numLutadores--;
+                } else {
+                    printf("Indice de lutador para remover do torneio invalido! Tente novamente.\n");
+                }
+                break;
+            default:
+                printf("Opcao invalida! Tente novamente.\n");
+        }
+    } else {
+        printf("Indice de torneio invalido! Tente novamente.\n");
+    }
+}
+
+
 Lutador* obterInfoLutador() {
     Lutador* novoLutador = malloc(sizeof(Lutador));
 
@@ -188,7 +265,7 @@ Lutador* obterInfoLutador() {
     return novoLutador;
 }
 
-Torneio* obterInfoTorneio(Lista* listaLutadores) {
+Torneio* obterInfoTorneio() {
     Torneio* novoTorneio = malloc(sizeof(Torneio));
 
     printf("Digite o nome do torneio: ");
@@ -200,35 +277,14 @@ Torneio* obterInfoTorneio(Lista* listaLutadores) {
     printf("Digite a categoria do torneio: ");
     scanf("%s", novoTorneio->categoria);
 
-    printf("Digite o numero de lutadores no torneio: ");
-    scanf("%d", &novoTorneio->numLutadores);
-
-    if (novoTorneio->numLutadores > listaLutadores->tamanho) {
-        printf("\nNao ha lutadores suficientes cadastrados! Cadastre mais lutadores antes de prosseguir\n");
-        free(novoTorneio);
-        return NULL; // Return NULL to indicate failure
-    }
-
-    novoTorneio->lutadores = malloc(sizeof(Lutador*) * novoTorneio->numLutadores);
-
-    for (int i = 0; i < novoTorneio->numLutadores; i++) {
-        int indiceLutador;
-        printf("Digite o indice do lutador para adicionar ao torneio:\n");
-        listarLutadores(listaLutadores);
-        scanf("%d", &indiceLutador);
-
-        if (indiceLutador >= 0 && indiceLutador < listaLutadores->tamanho) {
-            novoTorneio->lutadores[i] = (Lutador*)buscar(listaLutadores, indiceLutador);
-        } else {
-            printf("Indice de lutador invalido! Tente novamente.\n");
-            i--; 
-        }
-    }
+    novoTorneio->numLutadores = 0; // Inicializa com 0 lutadores
+    novoTorneio->lutadores = NULL; // Inicializa como NULL
 
     novoTorneio->prox = NULL;
 
     return novoTorneio;
 }
+
 
 int exibirMenu() {
     int opcao;
@@ -279,8 +335,7 @@ int main() {
             break;
             }
             case 6: {
-                // Editar nome, adicionar ou remover Lutadores do Torneio
-                //EditarTorneio(listaTorneios);
+                editarTorneio(listaLutadores, listaTorneios);
                 break;
             }
             case 7: {
