@@ -119,6 +119,54 @@ void listarTorneios(Lista* lista) {
     printf("\n\n");
 }
 
+void editarCaracteristicaLutador(Lista *listaLutadores) {
+    if (listaLutadores->tamanho == 0) {
+        printf("Nenhum lutador cadastrado. Cadastre um lutador antes de editar caracteristicas.\n");
+        return;
+    }
+
+    printf("Digite o indice do lutador que deseja editar:\n");
+    listarLutadores(listaLutadores);
+
+    int indiceLutador;
+    scanf("%d", &indiceLutador);
+
+    if (indiceLutador >= 0 && indiceLutador < listaLutadores->tamanho) {
+        Lutador* lutador = (Lutador*)buscar(listaLutadores, indiceLutador);
+
+        printf("Escolha a caracteristica a ser editada:\n");
+        printf("1 - Nome\n");
+        printf("2 - Altura\n");
+        printf("3 - Peso\n");
+        printf("4 - Idade\n");
+
+        int opcaoCaracteristica;
+        scanf("%d", &opcaoCaracteristica);
+
+        switch (opcaoCaracteristica) {
+            case 1:
+                printf("Digite o novo nome: ");
+                scanf("%s", lutador->nome);
+                break;
+            case 2:
+                printf("Digite a nova altura: ");
+                scanf("%f", &lutador->altura);
+                break;
+            case 3:
+                printf("Digite o novo peso: ");
+                scanf("%f", &lutador->peso);
+                break;
+            case 4:
+                printf("Digite a nova idade: ");
+                scanf("%d", &lutador->idade);
+                break;
+            default:
+                printf("Opcao invalida! Tente novamente.\n");
+        }
+    } else {
+        printf("Indice de lutador invalido! Tente novamente.\n");
+    }
+}
 
 Lutador* obterInfoLutador() {
     Lutador* novoLutador = malloc(sizeof(Lutador));
@@ -214,8 +262,7 @@ int main() {
                 break;
             }
             case 2: {
-                // Implement editing characteristic of the Lutador
-                // EditarCaracteristicaLutador(listaLutadores);
+                editarCaracteristicaLutador(listaLutadores);
                 break;
             }
             case 3: {
